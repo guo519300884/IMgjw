@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.atguigu.imgjw">
 
-    <!-- 配置权限-->
+    <!-- 配置权限 -->
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +25,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
-
     <application
         android:name=".ImApplication"
         android:allowBackup="true"
@@ -39,11 +38,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <!-- 设置环信应用的appkey -->
-        <!--android:value="1168170214115503#gjw01"-->
+        <!-- android:value="1168170214115503#gjw01" -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1179161211115462#atguigu001" />
@@ -66,7 +64,8 @@
         </receiver>
 
         <activity android:name=".controller.activity.MainActivity" />
-        <activity android:name=".controller.activity.LoginActivity"></activity>
+        <activity android:name=".controller.activity.LoginActivity" />
+        <activity android:name=".controller.activity.InviteAcitivity"></activity>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@
 
     <Button
         android:text=""
+        android:textSize="20sp"
         android:id="@+id/settings_btn_logout"
         android:background="@android:color/holo_red_dark"
         android:layout_width="match_parent"
