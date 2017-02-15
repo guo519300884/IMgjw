@@ -3,6 +3,7 @@ package com.atguigu.imgjw.modle;
 import android.content.Context;
 
 import com.atguigu.imgjw.modle.dao.AccountDao;
+import com.atguigu.imgjw.modle.db.DBManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,6 +23,7 @@ public class Modle {
     private static Modle modle = new Modle();
     private Context context;
     private AccountDao accountDao;
+    private DBManager dbManager;
 
     private Modle() {
 
@@ -35,6 +37,8 @@ public class Modle {
         this.context = context;
         //创建AccountDao数据库
         accountDao = new AccountDao(context);
+        //初始化全局监听
+        new GlobalListener(context);
     }
      /*
     *
@@ -57,7 +61,10 @@ public class Modle {
     }
 
     public void loginSuccess(String currenUser) {
-
+        if (dbManager != null) {
+            dbManager.close();
+        }
+        dbManager = new DBManager(context, currenUser + ".db");
     }
 
 

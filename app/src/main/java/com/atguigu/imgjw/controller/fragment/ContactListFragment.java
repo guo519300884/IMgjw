@@ -31,9 +31,19 @@ public class ContactListFragment extends EaseContactListFragment {
     protected void initView() {
         super.initView();
 
+        // “ + ” 标记  加好友按键
         titleBar.setRightImageResource(R.drawable.em_add);
+        //" + " 的监听
+        titleBar.setRightLayoutClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转添加好友页面
+                getActivity().startActivity(new Intent(getActivity(), InviteAcitivity.class));
 
-        //添加头布局
+            }
+        });
+
+        //初始化头布局
         view = View.inflate(getActivity(), R.layout.fragment_contact_head, null);
         ButterKnife.inject(this, view);
         listView.addHeaderView(view);
@@ -42,19 +52,6 @@ public class ContactListFragment extends EaseContactListFragment {
     @Override
     protected void setUpView() {
         super.setUpView();
-
-        inInitListener();
-    }
-
-    private void inInitListener() {
-        titleBar.setRightLayoutClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转加好友页面
-                getActivity().startActivity(new Intent(getActivity(), InviteAcitivity.class));
-
-            }
-        });
     }
 
 
