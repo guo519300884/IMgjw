@@ -153,11 +153,21 @@ public class ContactListFragment extends EaseContactListFragment {
                     //删除邀请信息
                     Modle.getInstance().getDbManager().getInvitationDao()
                             .removeInvitation(userInfo.getHxid());
-                    //刷新页面
-                    refreshContacts();
-                    ShowToast.showUI(getActivity(), "不留了");
+                    if (getActivity() == null) {
+                        return;
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //刷新页面
+                            refreshContacts();
+                            ShowToast.show(getActivity(), "不留了");
+                        }
+                    });
+
                 } catch (HyphenateException e) {
                     e.printStackTrace();
+
                     ShowToast.showUI(getActivity(), "就不走：" + e.getMessage());
 
                 }
@@ -191,7 +201,6 @@ public class ContactListFragment extends EaseContactListFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_contact_invitation:
-                ShowToast.show(getActivity(), "6666");
                 //红点显示处理
                 SpUtils.getInstance().save(SpUtils.IS_NEW_INVITE, false);
                 isShow();
@@ -200,9 +209,9 @@ public class ContactListFragment extends EaseContactListFragment {
 
                 break;
             case R.id.ll_group_item:
-                ShowToast.show(getActivity(), "99999");
-
-
+                //跳转群列表
+                Intent groupIntent = new Intent(getActivity(), GroupListActivity.class);
+                startActivity(groupIntent);
                 break;
         }
     }
@@ -228,8 +237,18 @@ public class ContactListFragment extends EaseContactListFragment {
                     Modle.getInstance().getDbManager()
                             .getContactDao().saveContacts(userInfos, true);
 
-                    //刷新联系人列表
-                    refreshContacts();
+                    if (getActivity() == null) {
+                        return;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //刷新联系人列表
+                            refreshContacts();
+                        }
+                    });
+
 
                 } catch (HyphenateException e) {
                     e.printStackTrace();
