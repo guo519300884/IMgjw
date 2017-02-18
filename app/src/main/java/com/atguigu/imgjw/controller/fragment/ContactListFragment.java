@@ -45,17 +45,13 @@ public class ContactListFragment extends EaseContactListFragment {
     ImageView ivInvitationNotif;
 
     private View view;
-    private LocalBroadcastManager lbm;
+    private LocalBroadcastManager manager;
     private InviteAdapter adapter;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //小红点
             isShow();
-            //联系人邀请信息变化
-            adapter.refresh(Modle.getInstance()
-                    .getDbManager().getInvitationDao()
-                    .getInvitations());
         }
     };
 
@@ -76,9 +72,9 @@ public class ContactListFragment extends EaseContactListFragment {
         isShow();
 
         //获取邀请信息变化的监听
-        lbm = LocalBroadcastManager.getInstance(getActivity());
+        manager = LocalBroadcastManager.getInstance(getActivity());
         //注册
-        lbm.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
+        manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
 
         initData();
         inInitListener();
@@ -201,7 +197,7 @@ public class ContactListFragment extends EaseContactListFragment {
         super.onDestroyView();
         ButterKnife.reset(this);
         //解除注册
-        lbm.unregisterReceiver(receiver);
+        manager.unregisterReceiver(receiver);
     }
 
 
