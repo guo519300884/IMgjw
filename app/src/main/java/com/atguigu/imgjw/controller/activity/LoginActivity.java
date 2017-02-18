@@ -84,12 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                                 //登录成功
                                 @Override
                                 public void onSuccess() {
-                                    //登录成后需要理
+                                    //登录成后需处理
                                     Modle.getInstance()
                                             .loginSuccess(EMClient
                                                     .getInstance()
                                                     .getCurrentUser());
-                                    //将账号保存进数库
+                                    //将账号保存进数据库
                                     Modle.getInstance()
                                             .getAccountDao()
                                             .addAccount(

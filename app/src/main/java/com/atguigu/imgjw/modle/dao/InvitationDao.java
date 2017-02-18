@@ -32,12 +32,11 @@ public class InvitationDao {
             return;
         }
         //获取连接
-
         SQLiteDatabase database = dbHelper.getReadableDatabase();
-
         ContentValues contentValues = new ContentValues();
         UserInfo userInfo = invitationInfo.getUserInfo();
         //判断
+
         if (userInfo == null) {
             //群邀请
             contentValues.put(InvitationTable.COL_GROUP_ID, invitationInfo.getGroupInfo().getGroupId());
@@ -48,6 +47,7 @@ public class InvitationDao {
             contentValues.put(InvitationTable.COL_USER_HXID, invitationInfo.getUserInfo().getHxid());
             contentValues.put(InvitationTable.COL_USER_NAME, invitationInfo.getUserInfo().getUsername());
         }
+
         contentValues.put(InvitationTable.COL_REASON, invitationInfo.getReason());
         contentValues.put(InvitationTable.COL_STATUS, invitationInfo.getStatus().ordinal());
         database.replace(InvitationTable.TABLE_NAME, null, contentValues);

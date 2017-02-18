@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.atguigu.imgjw.modle.dao.AccountDao;
 import com.atguigu.imgjw.modle.db.DBManager;
+import com.atguigu.imgjw.utils.SpUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,6 +61,11 @@ public class Modle {
         return accountDao;
     }
 
+    public DBManager getDbManager() {
+        return dbManager;
+    }
+
+    //登录成功后创建用户和邀请信息
     public void loginSuccess(String currenUser) {
         if (dbManager != null) {
             dbManager.close();
@@ -68,4 +74,7 @@ public class Modle {
     }
 
 
+    public void ecitLogin() {
+        SpUtils.getInstance().destory();
+    }
 }

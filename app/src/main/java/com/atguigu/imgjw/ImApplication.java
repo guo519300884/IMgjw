@@ -1,6 +1,7 @@
 package com.atguigu.imgjw;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.atguigu.imgjw.modle.Modle;
 import com.hyphenate.chat.EMOptions;
@@ -12,6 +13,8 @@ import com.hyphenate.easeui.controller.EaseUI;
 
 public class ImApplication extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,6 +22,8 @@ public class ImApplication extends Application {
         initHXSdk();
         //初始化Modle
         Modle.getInstance().init(this);
+
+        context = this;
     }
 
     private void initHXSdk() {
@@ -31,5 +36,9 @@ public class ImApplication extends Application {
         //初始化 EaseUI
         EaseUI.getInstance().init(this, options);
 
+    }
+
+    public static Context getContext(){
+        return context;
     }
 }

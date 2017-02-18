@@ -49,7 +49,7 @@ public class SettingFragment extends Fragment {
                 //在服务器获取用户名
                 String currentUser = EMClient.getInstance().getCurrentUser();
                 //设置button的信息
-                settingsBtnLogout.setText("退出登录（" + currentUser + ")");
+                settingsBtnLogout.setText("退出登录(" + currentUser + ")");
             }
         });
     }
@@ -64,6 +64,8 @@ public class SettingFragment extends Fragment {
                     //退出成功
                     @Override
                     public void onSuccess() {
+
+                        Modle.getInstance().ecitLogin();
                         //判断此页面是否为空
                         if (getActivity() == null) {
                             return;
@@ -74,6 +76,7 @@ public class SettingFragment extends Fragment {
                         //关闭此页面
                         getActivity().finish();
                     }
+
                     // 退出失败
                     @Override
                     public void onError(int i, String s) {

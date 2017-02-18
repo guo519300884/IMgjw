@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class InviteAcitivity extends AppCompatActivity {
+public class AddAcitivity extends AppCompatActivity {
 
 
     @InjectView(R.id.invite_btn_search)
@@ -39,7 +39,7 @@ public class InviteAcitivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite);
+        setContentView(R.layout.activity_add);
         ButterKnife.inject(this);
 
     }
@@ -71,10 +71,10 @@ public class InviteAcitivity extends AppCompatActivity {
                             //此参数为查找到的好友username 和添加理由
                             EMClient.getInstance().contactManager()
                                     .addContact(username, "添加好友");
-                            ShowToast.showUI(InviteAcitivity.this, "添加成功");
+                            ShowToast.showUI(AddAcitivity.this, "添加成功");
                         } catch (HyphenateException e) {
                             e.printStackTrace();
-                            ShowToast.showUI(InviteAcitivity.this, "添加失败" + e.getMessage());
+                            ShowToast.showUI(AddAcitivity.this, "添加失败" + e.getMessage());
                         }
 
                     }

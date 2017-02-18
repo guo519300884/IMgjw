@@ -24,7 +24,7 @@ public class ContactDao {
     }
 
     //获取所有联系人
-    public List<UserInfo> getContact() {
+    public List<UserInfo> getContacts() {
         //连接服务器
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
@@ -86,7 +86,7 @@ public class ContactDao {
         List<UserInfo> userInfos = new ArrayList<>();
         for (String hxId : hxIds) {
             UserInfo userInfo = getContactByHx(hxId);
-            if (userInfo == null) {
+            if (userInfo != null) {
                 userInfos.add(userInfo);
             }
         }
@@ -94,7 +94,7 @@ public class ContactDao {
     }
 
     //保存单个用户
-    public void saveContact(UserInfo user, boolean isMyContact) {
+    public void saveContacts(UserInfo user, boolean isMyContact) {
         //校验
         if (user == null) {
             return;
@@ -112,13 +112,13 @@ public class ContactDao {
     }
 
     //保存所有联系人
-    public void saveContact(List<UserInfo> contacts, boolean isMyContact) {
+    public void saveContacts(List<UserInfo> contacts, boolean isMyContact) {
 
         if (contacts == null || contacts.size() == 0) {
             return;
         }
         for (UserInfo userinfo : contacts) {
-            saveContact(userinfo, isMyContact);
+            saveContacts(userinfo, isMyContact);
         }
 
     }
