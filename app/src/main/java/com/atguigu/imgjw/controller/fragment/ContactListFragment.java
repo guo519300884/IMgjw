@@ -18,6 +18,7 @@ import com.atguigu.imgjw.utils.Contacts;
 import com.atguigu.imgjw.utils.ShowToast;
 import com.atguigu.imgjw.utils.SpUtils;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.exceptions.HyphenateException;
@@ -88,7 +89,10 @@ public class ContactListFragment extends EaseContactListFragment {
         setContactListItemClickListener(new EaseContactListItemClickListener() {
             @Override
             public void onListItemClicked(EaseUser user) {
-                
+                //携带数据跳转到聊天页面
+                startActivity(new Intent(getActivity(), ChatActivity.class)
+                        .putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername()));
+
             }
         });
     }

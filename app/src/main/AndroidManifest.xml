@@ -44,7 +44,8 @@
 
         <!-- 设置环信应用的appkey -->
 
-        <!--android:value="1179161211115462#atguigu001" />-->
+
+        <!-- android:value="1179161211115462#atguigu001" /> -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1168170214115503#gjw01" />
@@ -69,7 +70,8 @@
         <activity android:name=".controller.activity.MainActivity" />
         <activity android:name=".controller.activity.LoginActivity" />
         <activity android:name=".controller.activity.AddAcitivity" />
-        <activity android:name=".controller.fragment.InviteAcitivity"></activity>
+        <activity android:name=".controller.fragment.InviteAcitivity" />
+        <activity android:name=".controller.fragment.ChatActivity"></activity>
     </application>
 
 </manifest>
