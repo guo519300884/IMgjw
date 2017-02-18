@@ -2,10 +2,13 @@ package com.atguigu.imgjw.controller.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -54,6 +57,14 @@ public class ContactListFragment extends EaseContactListFragment {
             isShow();
         }
     };
+    private BroadcastReceiver contactRecevier = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            refreshContacts();
+        }
+    };
+    private List<UserInfo> contacts;
 
     @Override
     protected void initView() {
@@ -75,6 +86,7 @@ public class ContactListFragment extends EaseContactListFragment {
         manager = LocalBroadcastManager.getInstance(getActivity());
         //注册
         manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
+        manager.registerReceiver(contactRecevier, new IntentFilter(Contacts.CONTACT_CHAGED));
 
         initData();
         inInitListener();
@@ -91,7 +103,69 @@ public class ContactListFragment extends EaseContactListFragment {
 
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position == 0) {
+                    return false;
+                }
+
+                showDialog(position);
+
+                return true;
+            }
+        });
+
     }
+
+    private void showDialog(final int position) {
+
+        new AlertDialog.Builder(getActivity()).setMessage("你舍得吗？")
+                .setNegativeButton("不舍得", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setPositiveButton("舍得", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteContacts(position);
+            }
+        }).create().show();
+
+    }
+
+    private void deleteContacts(final int position) {
+        Modle.getInstance().getGlobalThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //获取用户的环信id
+                    UserInfo userInfo = contacts.get(position - 1);
+                    //网络服务器中删除
+                    EMClient.getInstance().contactManager()
+                            .deleteContact(userInfo.getHxid());
+                    //在本地删除  删除联系人
+                    Modle.getInstance().getDbManager().getContactDao()
+                            .deleteContactByHxId(userInfo.getHxid());
+                    //删除邀请信息
+                    Modle.getInstance().getDbManager().getInvitationDao()
+                            .removeInvitation(userInfo.getHxid());
+                    //刷新页面
+                    refreshContacts();
+                    ShowToast.showUI(getActivity(), "不留了");
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                    ShowToast.showUI(getActivity(), "就不走：" + e.getMessage());
+
+                }
+            }
+        });
+
+    }
+
 
     @Override
     protected void setUpView() {
@@ -168,7 +242,7 @@ public class ContactListFragment extends EaseContactListFragment {
     //刷新联系人表
     private void refreshContacts() {
         //从本地集合获取联系人信息
-        List<UserInfo> contacts = Modle.getInstance()
+        contacts = Modle.getInstance()
                 .getDbManager().getContactDao().getContacts();
 
         //校验
