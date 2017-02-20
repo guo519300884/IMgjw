@@ -12,4 +12,6 @@ public class Contacts {
     public static final String CONTACT_CHAGED = "contact_chaged";
     //群邀请状态
     public static final String GROUP_INVITE_CHAGE = "group_invite_chage";
+    //退群广播
+    public static final String DESTORY_GROUP = "destory_group";
 }

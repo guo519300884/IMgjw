@@ -133,12 +133,13 @@ public class InviteAcitivity extends AppCompatActivity {
                         try {
                             //网络
                             EMClient.getInstance().groupManager()
-                                    .acceptApplication(info.getGroupInfo().getGroupName(),
+                                    .acceptInvitation(
+                                            info.getGroupInfo().getGroupId(),
                                             info.getGroupInfo().getInvitePerson());
                             //本地
+                            info.setStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_INVITE);
                             Modle.getInstance().getDbManager().getInvitationDao()
-                                    .updateInvitationStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_INVITE,
-                                            info.getUserInfo().getHxid());
+                                    .addInvitation(info);
                             //刷新内存和页面
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -156,18 +157,99 @@ public class InviteAcitivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInviteReject(InvitationInfo info) {
+            public void onInviteReject(final InvitationInfo info) {
+
+                Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            //网络服务器
+                            EMClient.getInstance().groupManager()
+                                    .declineInvitation(
+                                            info.getGroupInfo().getGroupId(),
+                                            info.getGroupInfo().getInvitePerson(), "");
+                            //本地数据库
+                            info.setStatus(InvitationInfo.InvitationStatus.GROUP_INVITE_DECLINED);
+                            Modle.getInstance().getDbManager().getInvitationDao()
+                                    .addInvitation(info);
+                            //刷新内存和页面
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refresh();
+                                    ShowToast.show(InviteAcitivity.this, "拒绝成功");
+                                }
+                            });
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            ShowToast.showUI(InviteAcitivity.this, "拒绝失败：" + e.getMessage());
+                        }
+                    }
+                });
 
             }
 
             @Override
-            public void onApplicationAccept(InvitationInfo info) {
+            public void onApplicationAccept(final InvitationInfo info) {
 
+                Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //网络服务器
+                            EMClient.getInstance().groupManager()
+                                    .acceptApplication(
+                                            info.getGroupInfo().getGroupName(),
+                                            info.getGroupInfo().getInvitePerson());
+                            //本地数据库
+                            info.setStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_APPLICATION);
+                            Modle.getInstance().getDbManager().getInvitationDao()
+                                    .addInvitation(info);
+                            //刷新内存页面
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refresh();
+                                    ShowToast.show(InviteAcitivity.this, "接受成功");
+                                }
+                            });
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            ShowToast.showUI(InviteAcitivity.this, "接受失败：" + e.getMessage());
+                        }
+                    }
+                });
             }
 
             @Override
-            public void onApplicationReject(InvitationInfo info) {
-
+            public void onApplicationReject(final InvitationInfo info) {
+                Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //网络服务器
+                            EMClient.getInstance().groupManager()
+                                    .declineApplication(info.getGroupInfo().getGroupName(),
+                                            info.getGroupInfo().getInvitePerson(), "");
+                            //本地数据库
+                            info.setStatus(InvitationInfo.InvitationStatus.GROUP_APPLICATION_DECLINED);
+                            Modle.getInstance().getDbManager().getInvitationDao()
+                                    .addInvitation(info);
+                            //刷新内存和页面
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refresh();
+                                    ShowToast.show(InviteAcitivity.this, "拒绝成功");
+                                }
+                            });
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            ShowToast.showUI(InviteAcitivity.this, "拒绝失败：" + e.getMessage());
+                        }
+                    }
+                });
             }
         });
         lvInvite.setAdapter(adapter);

@@ -81,7 +81,7 @@ public class InviteAdapter extends BaseAdapter {
 
         if (groupInfo != null) {
             //群邀请
-            viewHolder.tvInviteName.setText(groupInfo.getGroupName());
+            viewHolder.tvInviteName.setText(groupInfo.getInvitePerson());
 
             //隐藏俩按钮
             viewHolder.btInviteAccept.setVisibility(View.GONE);

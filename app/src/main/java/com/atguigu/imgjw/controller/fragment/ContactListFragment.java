@@ -298,6 +298,4 @@ public class ContactListFragment extends EaseContactListFragment {
         manager.unregisterReceiver(groupRecrvier);
         manager.unregisterReceiver(contactRecevier);
     }
-
-
 }
