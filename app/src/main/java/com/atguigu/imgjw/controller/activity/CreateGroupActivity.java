@@ -102,6 +102,15 @@ public class CreateGroupActivity extends AppCompatActivity {
                 try {
 
                     String[] memberses = data.getStringArrayExtra("members");
+                    //
+                    if (memberses == null) {
+                        return;
+                    }
+                    if (memberses.length == 0) {
+                        ShowToast.showUI(CreateGroupActivity.this, "没有好友");
+                        return;
+                    }
+
                     //在环信服务器中创建群
                     EMGroupManager.EMGroupOptions options = new EMGroupManager.EMGroupOptions();
 

@@ -123,6 +123,52 @@ public class InviteAcitivity extends AppCompatActivity {
                 });
 
             }
+
+            @Override
+            public void onInviteAccept(final InvitationInfo info) {
+                Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            //网络
+                            EMClient.getInstance().groupManager()
+                                    .acceptApplication(info.getGroupInfo().getGroupName(),
+                                            info.getGroupInfo().getInvitePerson());
+                            //本地
+                            Modle.getInstance().getDbManager().getInvitationDao()
+                                    .updateInvitationStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_INVITE,
+                                            info.getUserInfo().getHxid());
+                            //刷新内存和页面
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refresh();
+                                    ShowToast.show(InviteAcitivity.this, "接受成功");
+                                }
+                            });
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            ShowToast.showUI(InviteAcitivity.this, "接受失败：" + e.getMessage());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onInviteReject(InvitationInfo info) {
+
+            }
+
+            @Override
+            public void onApplicationAccept(InvitationInfo info) {
+
+            }
+
+            @Override
+            public void onApplicationReject(InvitationInfo info) {
+
+            }
         });
         lvInvite.setAdapter(adapter);
         refresh();

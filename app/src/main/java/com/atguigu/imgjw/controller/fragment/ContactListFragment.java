@@ -68,6 +68,12 @@ public class ContactListFragment extends EaseContactListFragment {
         }
     };
     private List<UserInfo> contacts;
+    private BroadcastReceiver groupRecrvier = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isShow();
+        }
+    };
 
     @Override
     protected void initView() {
@@ -90,8 +96,11 @@ public class ContactListFragment extends EaseContactListFragment {
         //注册
         manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
         manager.registerReceiver(contactRecevier, new IntentFilter(Contacts.CONTACT_CHAGED));
+        manager.registerReceiver(groupRecrvier, new IntentFilter(Contacts.GROUP_INVITE_CHAGE));
 
+        //初始化数据
         initData();
+        //监听事件
         inInitListener();
 
     }
@@ -286,6 +295,8 @@ public class ContactListFragment extends EaseContactListFragment {
         ButterKnife.reset(this);
         //解除注册
         manager.unregisterReceiver(receiver);
+        manager.unregisterReceiver(groupRecrvier);
+        manager.unregisterReceiver(contactRecevier);
     }
 
 
