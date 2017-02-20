@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 
 import com.atguigu.imgjw.R;
 import com.atguigu.imgjw.controller.activity.AddAcitivity;
+import com.atguigu.imgjw.controller.activity.ChatActivity;
+import com.atguigu.imgjw.controller.activity.GroupListActivity;
+import com.atguigu.imgjw.controller.activity.InviteAcitivity;
 import com.atguigu.imgjw.controller.adapter.InviteAdapter;
 import com.atguigu.imgjw.modle.Modle;
 import com.atguigu.imgjw.modle.bean.UserInfo;
@@ -156,14 +159,9 @@ public class ContactListFragment extends EaseContactListFragment {
                     if (getActivity() == null) {
                         return;
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //刷新页面
-                            refreshContacts();
-                            ShowToast.show(getActivity(), "不留了");
-                        }
-                    });
+                    //刷新页面
+                    refreshContacts();
+                    ShowToast.show(getActivity(), "不留了");
 
                 } catch (HyphenateException e) {
                     e.printStackTrace();
@@ -241,13 +239,9 @@ public class ContactListFragment extends EaseContactListFragment {
                         return;
                     }
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //刷新联系人列表
-                            refreshContacts();
-                        }
-                    });
+
+                    //刷新联系人列表
+                    refreshContacts();
 
 
                 } catch (HyphenateException e) {
@@ -282,6 +276,7 @@ public class ContactListFragment extends EaseContactListFragment {
     @Override
     public void onResume() {
         super.onResume();
+
         refreshContacts();
     }
 

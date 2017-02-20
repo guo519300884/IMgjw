@@ -1,4 +1,4 @@
-package com.atguigu.imgjw.controller.fragment;
+package com.atguigu.imgjw.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

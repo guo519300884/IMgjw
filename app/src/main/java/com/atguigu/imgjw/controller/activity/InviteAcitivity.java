@@ -1,4 +1,4 @@
-package com.atguigu.imgjw.controller.fragment;
+package com.atguigu.imgjw.controller.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

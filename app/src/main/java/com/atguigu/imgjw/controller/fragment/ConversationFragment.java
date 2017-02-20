@@ -2,6 +2,7 @@ package com.atguigu.imgjw.controller.fragment;
 
 import android.content.Intent;
 
+import com.atguigu.imgjw.controller.activity.ChatActivity;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
