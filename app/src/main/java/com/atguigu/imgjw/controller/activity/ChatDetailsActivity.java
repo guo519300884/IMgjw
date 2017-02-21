@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -47,8 +48,28 @@ public class ChatDetailsActivity extends AppCompatActivity {
         initData();
         //获取群成员
         getGroupMembers();
+        //群详情页面的监听
+        initListener();
     }
 
+    private void initListener() {
+        gvGroupDetail.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        //获取当前gridview适配器的删除状态
+                        boolean deleModle = adapter.getDeleModle();
+                        //只在删除模式下才触发
+                        if (deleModle) {
+                            adapter.setDeleteModle(false);
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+    }
 
     private void getDate() {
         //获取群id
@@ -166,12 +187,16 @@ public class ChatDetailsActivity extends AppCompatActivity {
 
     }
 
+    //群成员处理的监听
     private class MyOnMembersChangeListener implements ChatDetailsAdapter.OnMemberChangeListener {
+
+        //删除群成员
         @Override
         public void onRemoveGroupMember(UserInfo useriInfo) {
             ShowToast.show(ChatDetailsActivity.this, "gggggggggggggg");
         }
 
+        //添加群成员
         @Override
         public void onAddGroupMember(UserInfo userInfo) {
             ShowToast.show(ChatDetailsActivity.this, "lllllllllllllll");

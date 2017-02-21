@@ -184,6 +184,15 @@ public class ChatDetailsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setDeleteModle(boolean isDeleteModle) {
+        this.isDeleteModle = isDeleteModle;
+        notifyDataSetChanged();
+    }
+
+    public boolean getDeleModle() {
+        return isDeleteModle;
+    }
+
     class ViewHolder {
         @InjectView(R.id.iv_member_photo)
         ImageView ivMemberPhoto;
