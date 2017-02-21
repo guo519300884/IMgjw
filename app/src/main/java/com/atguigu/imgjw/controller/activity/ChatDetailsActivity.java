@@ -1,5 +1,7 @@
 package com.atguigu.imgjw.controller.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -192,8 +194,56 @@ public class ChatDetailsActivity extends AppCompatActivity {
 
         //删除群成员
         @Override
-        public void onRemoveGroupMember(UserInfo useriInfo) {
-            ShowToast.show(ChatDetailsActivity.this, "gggggggggggggg");
+        public void onRemoveGroupMember(final UserInfo useriInfo) {
+
+            new AlertDialog.Builder(ChatDetailsActivity.this)
+                    .setMessage("舍得吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    try {
+                                        //从网络服务器删除群成员
+                                        EMClient.getInstance().groupManager()
+                                                .removeUserFromGroup(group.getGroupId(), useriInfo.getHxid());
+                                        //重新从网络服务器获取群成员
+                                        getGroupMembers();
+
+                                        ShowToast.showUI(ChatDetailsActivity.this, "删除成功");
+
+                                    } catch (HyphenateException e) {
+                                        e.printStackTrace();
+                                        ShowToast.showUI(ChatDetailsActivity.this, "删除失败：" + e.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+//
+//            Modle.getInstance().getGlobalThread().execute(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    try {
+//                        //从网络服务器删除群成员
+//                        EMClient.getInstance().groupManager()
+//                                .removeUserFromGroup(group.getGroupId(), useriInfo.getHxid());
+//                        //重新从网络服务器获取群成员
+//                        getGroupMembers();
+//
+//                        ShowToast.show(ChatDetailsActivity.this, "删除成功");
+//
+//                    } catch (HyphenateException e) {
+//                        e.printStackTrace();
+//                        ShowToast.show(ChatDetailsActivity.this, "删除失败：" + e.getMessage());
+//                    }
+//                }
+//            });
         }
 
         //添加群成员
