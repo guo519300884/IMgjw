@@ -27,9 +27,10 @@ public class ChatDetailsAdapter extends BaseAdapter {
     private List<UserInfo> userInfos;
     private boolean isDeleteModle = false;
 
-    public ChatDetailsAdapter(Context context, boolean isModify) {
+    public ChatDetailsAdapter(Context context, boolean isModify, OnMemberChangeListener onMembersChangeListener) {
         this.context = context;
         this.isModify = isModify;
+        this.onMembersChangeListener = onMembersChangeListener;
         userInfos = new ArrayList<>();
     }
 
@@ -72,8 +73,10 @@ public class ChatDetailsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder = null;
+
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.adapter_group_memebers, null);
             viewHolder = new ViewHolder(convertView);
@@ -142,6 +145,10 @@ public class ChatDetailsAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
 
+                        if (onMembersChangeListener != null) {
+                            //添加群群成员
+                            onMembersChangeListener.onAddGroupMember(userInfos.get(position));
+                        }
                     }
                 });
             } else {
@@ -149,7 +156,10 @@ public class ChatDetailsAdapter extends BaseAdapter {
                 viewHolder.ivMemberDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        if (onMembersChangeListener != null) {
+                            //删除群成员
+                            onMembersChangeListener.onRemoveGroupMember(userInfos.get(position));
+                        }
                     }
                 });
             }
@@ -174,7 +184,7 @@ public class ChatDetailsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ViewHolder {
+    class ViewHolder {
         @InjectView(R.id.iv_member_photo)
         ImageView ivMemberPhoto;
         @InjectView(R.id.tv_member_name)
@@ -186,4 +196,14 @@ public class ChatDetailsAdapter extends BaseAdapter {
             ButterKnife.inject(this, view);
         }
     }
+
+    private OnMemberChangeListener onMembersChangeListener;
+
+    public interface OnMemberChangeListener {
+
+        void onRemoveGroupMember(UserInfo useriInfo);
+
+        void onAddGroupMember(UserInfo userInfo);
+    }
+
 }

@@ -160,12 +160,23 @@ public class ChatDetailsActivity extends AppCompatActivity {
             });
         }
         //判断是不是群主
-        boolean isModify  = owner.equals(EMClient.getInstance().getCurrentUser());
-
-        //
-        adapter = new ChatDetailsAdapter(this,isModify);
+        boolean isModify = owner.equals(EMClient.getInstance().getCurrentUser());
+        adapter = new ChatDetailsAdapter(this, isModify, new MyOnMembersChangeListener());
         gvGroupDetail.setAdapter(adapter);
 
+    }
+
+    private class MyOnMembersChangeListener implements ChatDetailsAdapter.OnMemberChangeListener {
+        @Override
+        public void onRemoveGroupMember(UserInfo useriInfo) {
+            ShowToast.show(ChatDetailsActivity.this, "gggggggggggggg");
+        }
+
+        @Override
+        public void onAddGroupMember(UserInfo userInfo) {
+            ShowToast.show(ChatDetailsActivity.this, "lllllllllllllll");
+
+        }
     }
 
     private void exitGroup() {
@@ -176,4 +187,6 @@ public class ChatDetailsActivity extends AppCompatActivity {
         intent.putExtra("groupId", groupId);
         manager.sendBroadcast(intent);
     }
+
+
 }
