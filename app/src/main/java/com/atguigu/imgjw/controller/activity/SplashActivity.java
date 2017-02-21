@@ -39,8 +39,6 @@ public class SplashActivity extends AppCompatActivity {
                     //结束当前页面
                     finish();
                 } else {
-                    //没有登陆过
-
                     //没登陆过 跳转登录页面
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     //结束此页面

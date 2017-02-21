@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.atguigu.imgjw.ImApplication;
 import com.atguigu.imgjw.R;
 import com.atguigu.imgjw.controller.adapter.InviteAdapter;
 import com.atguigu.imgjw.modle.Modle;
@@ -49,13 +50,15 @@ public class InviteAcitivity extends AppCompatActivity {
     }
 
     private void initData() {
-        manager = LocalBroadcastManager.getInstance(this);
+//        manager = LocalBroadcastManager.getInstance(this);
+        manager = LocalBroadcastManager.getInstance(ImApplication.getContext());
         manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
     }
 
     private void initView() {
         adapter = new InviteAdapter(this, new InviteAdapter.OnInviteChangeListener() {
 
+            //接受添加联系人
             @Override
             public void onAccept(final InvitationInfo info) {
                 //点击接受
@@ -88,6 +91,7 @@ public class InviteAcitivity extends AppCompatActivity {
                 });
             }
 
+            //拒绝添加联系人
             @Override
             public void onReject(final InvitationInfo info) {
                 //点击拒绝
@@ -124,6 +128,7 @@ public class InviteAcitivity extends AppCompatActivity {
 
             }
 
+            //接受群邀请
             @Override
             public void onInviteAccept(final InvitationInfo info) {
                 Modle.getInstance().getGlobalThread().execute(new Runnable() {
@@ -156,6 +161,7 @@ public class InviteAcitivity extends AppCompatActivity {
                 });
             }
 
+            //拒绝群邀请
             @Override
             public void onInviteReject(final InvitationInfo info) {
 
@@ -190,6 +196,7 @@ public class InviteAcitivity extends AppCompatActivity {
 
             }
 
+            //接受群申请
             @Override
             public void onApplicationAccept(final InvitationInfo info) {
 
@@ -222,6 +229,7 @@ public class InviteAcitivity extends AppCompatActivity {
                 });
             }
 
+            //拒绝群申请
             @Override
             public void onApplicationReject(final InvitationInfo info) {
                 Modle.getInstance().getGlobalThread().execute(new Runnable() {

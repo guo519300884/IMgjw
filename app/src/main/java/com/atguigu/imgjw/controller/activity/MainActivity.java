@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
         initListener();
         //默认聊天页面
         switchFragmet(R.id.rb_main_chat);
-
     }
 
     private void initListener() {
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //选择页面
                 switchFragmet(checkedId);
             }
         });
@@ -67,10 +67,8 @@ public class MainActivity extends AppCompatActivity {
         if (fragment == null) {
             return;
         }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fl,
-                        fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_fl, fragment).commit();
     }
 
 

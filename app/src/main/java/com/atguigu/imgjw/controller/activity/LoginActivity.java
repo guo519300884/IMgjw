@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtnRegister;
     @InjectView(R.id.login_btn_login)
     Button loginBtnLogin;
+
     private String username;
     private String passwrod;
 
@@ -61,16 +62,14 @@ public class LoginActivity extends AppCompatActivity {
                     Modle.getInstance().getGlobalThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            //进服务区注册
                             try {
+                                //进入环信服务器注册
                                 EMClient.getInstance().createAccount(username, passwrod);
                                 ShowToast.showUI(LoginActivity.this, "注册成功");
                             } catch (HyphenateException e) {
                                 e.printStackTrace();
                                 ShowToast.showUI(LoginActivity.this, "注册失败" + e.getMessage());
-//                                Toast.makeText(LoginActivity.this, "没成", Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     });
                 }
@@ -85,17 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess() {
                                     //登录成后需处理
-                                    Modle.getInstance()
-                                            .loginSuccess(EMClient
-                                                    .getInstance()
-                                                    .getCurrentUser());
+                                    Modle.getInstance().loginSuccess(EMClient.getInstance().getCurrentUser());
                                     //将账号保存进数据库
-                                    Modle.getInstance()
-                                            .getAccountDao()
-                                            .addAccount(
-                                                    new UserInfo(EMClient
-                                                            .getInstance()
-                                                            .getCurrentUser()));
+                                    Modle.getInstance().getAccountDao()
+                                            .addAccount(new UserInfo(EMClient.getInstance().getCurrentUser()));
                                     //进入下一页面
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     ShowToast.showUI(LoginActivity.this, "登录成功");

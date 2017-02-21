@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.atguigu.imgjw.ImApplication;
 import com.atguigu.imgjw.R;
 import com.atguigu.imgjw.utils.Contacts;
 import com.hyphenate.chat.EMMessage;
@@ -31,7 +33,9 @@ public class ChatActivity extends AppCompatActivity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             String id = intent.getStringExtra("groupId");
+
             if (groupId.equals(id)) {
                 finish();
             }
@@ -116,9 +120,11 @@ public class ChatActivity extends AppCompatActivity {
         int type = getIntent().getExtras().getInt(EaseConstant.EXTRA_CHAT_TYPE);
         //获取用户id或群id
         groupId = getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID);
+        Log.e("TAG", "ChatActivity initData()" + groupId);
         //在群页面才进行退群注册
         if (type == EaseConstant.CHATTYPE_GROUP) {
-            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+//            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(ImApplication.getContext());
             manager.registerReceiver(receiver, new IntentFilter(Contacts.DESTORY_GROUP));
         }
     }

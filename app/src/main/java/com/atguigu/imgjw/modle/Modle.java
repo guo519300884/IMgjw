@@ -27,7 +27,6 @@ public class Modle {
     private DBManager dbManager;
 
     private Modle() {
-
     }
 
     public static Modle getInstance() {

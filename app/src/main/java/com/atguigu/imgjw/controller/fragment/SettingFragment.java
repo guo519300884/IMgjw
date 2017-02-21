@@ -26,6 +26,7 @@ import butterknife.OnClick;
 public class SettingFragment extends Fragment {
     @InjectView(R.id.settings_btn_logout)
     Button settingsBtnLogout;
+
     private View view;
 
     @Nullable
@@ -56,6 +57,7 @@ public class SettingFragment extends Fragment {
 
     @OnClick(R.id.settings_btn_logout)
     public void onClick() {
+
         Modle.getInstance().getGlobalThread().execute(new Runnable() {
             @Override
             public void run() {
@@ -64,7 +66,6 @@ public class SettingFragment extends Fragment {
                     //退出成功
                     @Override
                     public void onSuccess() {
-
                         Modle.getInstance().ecitLogin();
                         //判断此页面是否为空
                         if (getActivity() == null) {

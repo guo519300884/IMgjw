@@ -12,12 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.atguigu.imgjw.ImApplication;
 import com.atguigu.imgjw.R;
 import com.atguigu.imgjw.controller.activity.AddAcitivity;
 import com.atguigu.imgjw.controller.activity.ChatActivity;
 import com.atguigu.imgjw.controller.activity.GroupListActivity;
 import com.atguigu.imgjw.controller.activity.InviteAcitivity;
-import com.atguigu.imgjw.controller.adapter.InviteAdapter;
 import com.atguigu.imgjw.modle.Modle;
 import com.atguigu.imgjw.modle.bean.UserInfo;
 import com.atguigu.imgjw.utils.Contacts;
@@ -51,26 +51,29 @@ public class ContactListFragment extends EaseContactListFragment {
     ImageView ivInvitationNotif;
 
     private View view;
+    private List<UserInfo> contacts;
     private LocalBroadcastManager manager;
-    private InviteAdapter adapter;
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //小红点
+            //联系人调用小红点
             isShow();
         }
     };
+
     private BroadcastReceiver contactRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            //刷新
             refreshContacts();
         }
     };
-    private List<UserInfo> contacts;
+
     private BroadcastReceiver groupRecrvier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            //群组调用小红点
             isShow();
         }
     };
@@ -87,25 +90,27 @@ public class ContactListFragment extends EaseContactListFragment {
         //初始化头布局
         view = View.inflate(getActivity(), R.layout.fragment_contact_head, null);
         ButterKnife.inject(this, view);
+        //加头部布局
         listView.addHeaderView(view);
+
         //初始化红点
         isShow();
-
-        //获取邀请信息变化的监听
-        manager = LocalBroadcastManager.getInstance(getActivity());
-        //注册
-        manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
-        manager.registerReceiver(contactRecevier, new IntentFilter(Contacts.CONTACT_CHAGED));
-        manager.registerReceiver(groupRecrvier, new IntentFilter(Contacts.GROUP_INVITE_CHAGE));
-
         //初始化数据
         initData();
         //监听事件
         inInitListener();
 
+        //获取邀请信息变化的监听
+//        manager = LocalBroadcastManager.getInstance(getActivity());
+        manager = LocalBroadcastManager.getInstance(ImApplication.getContext());
+        //注册
+        manager.registerReceiver(receiver, new IntentFilter(Contacts.NEW_INVITE_CHAGED));
+        manager.registerReceiver(contactRecevier, new IntentFilter(Contacts.CONTACT_CHAGED));
+        manager.registerReceiver(groupRecrvier, new IntentFilter(Contacts.GROUP_INVITE_CHAGE));
     }
 
     private void inInitListener() {
+        //点击进入聊天页面
         setContactListItemClickListener(new EaseContactListItemClickListener() {
             @Override
             public void onListItemClicked(EaseUser user) {
@@ -116,6 +121,7 @@ public class ContactListFragment extends EaseContactListFragment {
             }
         });
 
+        //长按删除
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,6 +137,7 @@ public class ContactListFragment extends EaseContactListFragment {
         });
 
     }
+
 
     private void showDialog(final int position) {
 

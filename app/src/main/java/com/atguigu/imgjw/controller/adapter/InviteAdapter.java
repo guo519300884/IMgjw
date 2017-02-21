@@ -93,23 +93,30 @@ public class InviteAdapter extends BaseAdapter {
                 case GROUP_APPLICATION_ACCEPTED:
                     viewHolder.tvInviteReason.setText("您的群申请已经被对方接受");
                     break;
+
                 //您的群邀请已经被对方接受
                 case GROUP_INVITE_ACCEPTED:
                     viewHolder.tvInviteReason.setText("您的群邀请已经被对方接受");
                     break;
+
                 //你的群申请被对方拒绝
                 case GROUP_APPLICATION_DECLINED:
                     viewHolder.tvInviteReason.setText("你的群申请被对方拒绝");
                     break;
+
                 //您的群邀请被对方拒绝
                 case GROUP_INVITE_DECLINED:
                     viewHolder.tvInviteReason.setText("您的群邀请被对方拒绝");
                     break;
+
                 //您收到了群邀请
                 case NEW_GROUP_INVITE:
+
                     viewHolder.tvInviteReason.setText("您收到了群邀请");
+
                     viewHolder.btInviteAccept.setVisibility(View.VISIBLE);
                     viewHolder.btInviteReject.setVisibility(View.VISIBLE);
+                    //接受群邀请
                     viewHolder.btInviteAccept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -118,6 +125,7 @@ public class InviteAdapter extends BaseAdapter {
                             }
                         }
                     });
+                    //拒绝群邀请
                     viewHolder.btInviteReject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -129,9 +137,12 @@ public class InviteAdapter extends BaseAdapter {
                     break;
                 //您收到了群申请
                 case NEW_GROUP_APPLICATION:
+
                     viewHolder.tvInviteReason.setText("您收到了群申请");
+
                     viewHolder.btInviteAccept.setVisibility(View.VISIBLE);
                     viewHolder.btInviteReject.setVisibility(View.VISIBLE);
+                    //接受群申请
                     viewHolder.btInviteAccept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -140,6 +151,7 @@ public class InviteAdapter extends BaseAdapter {
                             }
                         }
                     });
+                    //拒绝群申请
                     viewHolder.btInviteReject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -149,17 +161,20 @@ public class InviteAdapter extends BaseAdapter {
                         }
                     });
                     break;
+
                 //你接受了群邀请
                 case GROUP_ACCEPT_INVITE:
                     viewHolder.tvInviteReason.setText("你接受了群邀请");
                     break;
-                //您接受了群申请
-                case GROUP_ACCEPT_APPLICATION:
-                    viewHolder.tvInviteReason.setText("您接受了群申请");
-                    break;
+
                 // 你拒绝了群邀请
                 case GROUP_REJECT_INVITE:
                     viewHolder.tvInviteReason.setText("你拒绝了群邀请");
+                    break;
+
+                //您接受了群申请
+                case GROUP_ACCEPT_APPLICATION:
+                    viewHolder.tvInviteReason.setText("您接受了群申请");
                     break;
 
                 // 您拒绝了群申请
